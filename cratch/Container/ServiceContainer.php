@@ -67,10 +67,19 @@ class ServiceContainer extends Helper implements ContainerInterface
 
     /**
      * @param string $name
-     * @return mixed
+     * @return object
      */
     public function make(string $name)
     {
         return $this->get($name, $this);
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function has(string $name): bool
+    {
+        return $this->hasBind($name);
     }
 }
