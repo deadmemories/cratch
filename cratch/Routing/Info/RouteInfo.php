@@ -25,6 +25,11 @@ class RouteInfo
     protected $currentFunction = '';
 
     /**
+     * @var string
+     */
+    protected $routeMethod = '';
+
+    /**
      * @return string
      */
     public function getCurrentUrl(): string
@@ -57,6 +62,14 @@ class RouteInfo
     }
 
     /**
+     * @return string
+     */
+    public function getRouteMethod(): string
+    {
+        return $this->currentFunction;
+    }
+
+    /**
      * @param string $url
      * @return RouteInfo
      */
@@ -83,11 +96,11 @@ class RouteInfo
      * @return RouteInfo
      */
     public function setCurrentMethod(string $method): RouteInfo
-    {
-        $this->currentMethod = $method;
+{
+    $this->currentMethod = $method;
 
-        return $this;
-    }
+    return $this;
+}
 
     /**
      * @param string $function
@@ -96,6 +109,17 @@ class RouteInfo
     public function setCurrentFunction(string $function): RouteInfo
     {
         $this->currentFunction = $function;
+
+        return $this;
+    }
+
+    /**
+     * @param $method
+     * @return RouteInfo
+     */
+    public function setRouteMethod($method): RouteInfo
+    {
+        $this->routeMethod = $method;
 
         return $this;
     }
