@@ -81,10 +81,6 @@ class Helper
      */
     protected function getParameter(string $name, \ReflectionParameter $argument)
     {
-        if ($this->params[$name][$argument->name]) {
-            return $this->params[$name][$argument->name];
-        }
-
         $class = $this->get($this->getNameForHasMethods($name, $argument));
 
         return $class;
