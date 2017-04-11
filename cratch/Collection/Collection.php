@@ -2,25 +2,34 @@
 
 namespace Cratch\Collection;
 
-class Collection
+use Cratch\Collection\Helpers\Except;
+use Cratch\Collection\Helpers\Only;
+use Cratch\Contracts\Collection\CollectionHelperInterface;
+
+class Collection extends Helper implements CollectionHelperInterface
 {
     /**
-     * @var array
+     * Collection constructor.
+     * @param array $items
      */
-    protected $items = [];
-
     public function __construct(array $items = [])
     {
-        $this->replace($items);
+        parent::__construct($items);
     }
 
     /**
-     * @param array $items
+     * @param array $keys
      */
-    public function replace(array $items): void
+    public function only($keys): void
     {
-        foreach ( $items as $k => $v ) {
-            $this->items[$k] = $v;
-        }
+        $this->items = ((new Only($this->items, $keys))->all());
+    }
+
+    /**
+     * @param $keys
+     */
+    public function except($keys): void
+    {
+        $this->items = (new Except($this->items, $keys))->all();
     }
 }

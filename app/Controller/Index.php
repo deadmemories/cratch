@@ -8,8 +8,5 @@ class Index
 {
     public function show ()
     {
-        cookie ()->set ('name', 'dima');
-        cookie ()->remove ('name');
-        echo cookie ()->get ('name');
     }
 }
