@@ -14,6 +14,8 @@ class Index
                 <input type="submit" value="upload">
             </form>
         ';
+
+        dd(app()->make('uploadSystem'), app()->make('fileSystem'));
     }
 
     public function upload ()

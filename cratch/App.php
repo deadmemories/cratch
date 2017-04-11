@@ -38,7 +38,17 @@ class App
     private function setClasses(): void
     {
         foreach ($this->config->get('app.required') as $k => $v) {
-            $this->container->register($k, $v);
+            if ( is_array($v) ) {
+                $this->container->register($k, $v[0]);
+
+                foreach ( $v[1] as $key => $value ) {
+                    $this->container->setParams($k, [
+                        $key => $value
+                    ]);
+                }
+            } else {
+                $this->container->register($k, $v);
+            }
         }
     }
 
