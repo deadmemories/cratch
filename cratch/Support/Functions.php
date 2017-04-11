@@ -4,10 +4,23 @@ function app()
 {
     return \Cratch\Container\ServiceContainer::getInstance();
 }
-function cookie ()
+
+function collection(array $items = [])
 {
-    return app ()->make('cookie');
+    app()->setParams(
+        'collection', [
+            'items' => $items,
+        ]
+    );
+
+    return app()->make('collection');
 }
+
+function cookie()
+{
+    return app()->make('cookie');
+}
+
 function dd()
 {
     $args = func_get_args();

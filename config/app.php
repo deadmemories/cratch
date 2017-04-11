@@ -7,6 +7,7 @@ return [
 
     'required' => [
         'route' => \Cratch\Routing\Route::class,
-        'cookie' =>  \Cratch\Cookie\Cookies::class
+        'cookie' => \Cratch\Cookie\Cookies::class,
+        'collection' => \Cratch\Collection\Collection::class,
     ],
 ];
