@@ -8,6 +8,16 @@ function cookie ()
 {
     return app ()->make('cookie');
 }
+
+function collection(array $items = [])
+{
+    app()->setParams('collection', [
+        'items' => $items
+    ]);
+
+    return app()->make('collection');
+}
+
 function dd()
 {
     $args = func_get_args();

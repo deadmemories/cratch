@@ -1,4 +1,5 @@
 <?php
+
 namespace Cratch\Cookie;
 
 use Cratch\Cookie\Hash;
@@ -10,49 +11,52 @@ class Cookies implements CookieInterface
      * @param string $key
      * @param $value
      * @param int $time
-     * @return $this|bool
+     * @param null $path
+     * @param null $domain
+     * @param bool $secure
+     * @param bool $httponly
+     * @return Cookies
      */
-    public function set(string $key, $value, int $time = 1)
+    public function set(
+        string $key, $value, int $time = 1, $path = null, $domain = null, $secure = false, $httponly = true
+    ): Cookies {
+        $value = Hash::encrypt($value);
+        setcookie(
+            $key, $value, time() + $time * 60 * 60, $path, $domain, $secure, $httponly
+        );
+
+        return $this;
+    }
+
+    /**
+     * @param string $key
+     * @return bool|object|string
+     */
+    public function get(string $key)
     {
-        if (! $this->has($key)) {
-            $value = Hash::encrypt($value);
-            setcookie($key, $value, time() + $time * 60 * 60);
-            return $this;
+        if ($this->has($key)) {
+            $value = Hash::decrypt($_COOKIE[$key]);
+
+            return is_array($value) ? collection($value) : $value;
         }
+
         return false;
     }
 
     /**
      * @param string $key
-     * @return bool|string
      */
-    public function get (string $key)
+    public function remove(string $key): void
     {
-        if ($this->has ($key)) {
-            return Hash::decrypt($_COOKIE[$key]);
-        }
-        return false;
-    }
-
-    /**
-     * @param string $key
-     */
-    public function remove (string $key)
-    {
-        $_COOKIE = array_udiff($_COOKIE, [$key], function ($a, $b) {
-            return ( $а === $b) ? O : l;
-        });
+        unset($_COOKIE[$key]);
     }
 
     /**
      * @param string $key
      * @return bool
      */
-    public function has (string $key): bool
+    public function has(string $key): bool
     {
-        if (isset ($_COOKIE[$key])) {
-            return true;
-        }
-        return false;
+        return !empty($_COOKIE[$key]) ? true : false;
     }
 }
