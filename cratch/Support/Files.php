@@ -2,21 +2,21 @@
 
 namespace Cratch\Support;
 
-use Cratch\Support\Exceptions\Files\FilesException;
+use Exceptions\FIleSystem\FileNotFoundException;
 
 class Files
 {
     /**
      * @param string $path
      * @return mixed
-     * @throws FilesException
+     * @throws FileNotFoundException
      */
     public static function loadFile(string $path)
     {
         if (file_exists($path)) {
             return include $path;
         } else {
-            throw new FilesException($path);
+            throw new FileNotFoundException('Incorrect path to file'.$path);
         }
     }
 
@@ -27,7 +27,7 @@ class Files
      */
     public static function getValueForConfig(array $keys, array $values)
     {
-        foreach ( $keys as $k ) {
+        foreach ($keys as $k) {
             $values = $values[$k];
         }
 
