@@ -20,5 +20,7 @@ return [
         'uploadFiles' => \Cratch\Files\UploadSystem\Upload::class,
         'uploadImage' => \Cratch\Files\UploadSystem\ImageUpload::class,
         'entityManager' => \Cratch\Doctrine::class,
+        'response' => \Cratch\Http\Response::class,
+        'request' => \Cratch\Http\Request::class,
     ],
 ];
