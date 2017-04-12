@@ -10,6 +10,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
+        "twig/twig": "^2.0",
+        "doctrine/orm": "*",
         "symfony/var-dumper": "*"
     },
     "autoload": {
@@ -18,7 +20,7 @@
             "Cratch\\": "cratch/"
         },
         "files": [
-            "Cratch/Support/Functions.php"
+            "cratch/Support/Functions.php"
         ]
     }
 }

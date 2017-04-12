@@ -81,8 +81,52 @@ class Helper implements CollectionInterface
      */
     public function get(string $key)
     {
-        if ( $this->has($key) ) {
+        if ($this->has($key)) {
             return $this->items[$key];
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function first(): string
+    {
+        return $this->get('[0]');
+    }
+
+    /**
+     * @return string
+     */
+    public function last(): string
+    {
+        return end($this->items);
+    }
+
+    /**
+     * @param callable $callback
+     * @return Collection
+     */
+    public function map(callable $callback): Collection
+    {
+        $keys = array_keys($this->items);
+        $items = array_map($callback, $this->items, $keys);
+
+        return collection(array_combine($keys, $items));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function pop()
+    {
+        return array_pop($this->items);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function reverse(): Collection
+    {
+        return collection(array_reverse($this->items, true));
     }
 }

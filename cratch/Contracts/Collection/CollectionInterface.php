@@ -2,7 +2,7 @@
 
 namespace Cratch\Contracts\Collection;
 
-use Cratch\Collection\Helper;
+use Cratch\Collection\Collection;
 
 interface CollectionInterface
 {
@@ -19,4 +19,14 @@ interface CollectionInterface
     public function push(string $key, $data): void;
 
     public function get(string $key);
+
+    public function first(): string;
+
+    public function last(): string;
+
+    public function map(callable $callback): Collection;
+
+    public function pop();
+
+    public function reverse(): Collection;
 }

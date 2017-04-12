@@ -21,6 +21,16 @@ function cookie()
     return app()->make('cookie');
 }
 
+function mainConfig()
+{
+    return app()->make('mainConfig');
+}
+
+function userConfig()
+{
+    return app()->make('userConfig');
+}
+
 function dd()
 {
     $args = func_get_args();
