@@ -77,23 +77,69 @@ class BaseRoute
 
         app()->register($this->info->getCurrentController());
 
-        if ( 1 == count($matches[0]) ) {
+        if (2 >= count($matches[0])) {
             return $this->callClassWithOneParam($matches);
         } else {
             return $this->callClassWithManyParams($matches);
         }
     }
 
+    /**
+     * @param $matches
+     * @return mixed
+     */
     private function callClassWithOneParam($matches)
     {
-        $class = app()->get($this->info->getCurrentController());
+        $class = app()->make($this->info->getCurrentController());
+        $method = new \ReflectionMethod($class, $this->info->getRouteMethod());
+
+        if (! count($method->getParameters())) {
+            return $method->invoke($class, $matches[0][1]);
+        } else {
+            $arguments = $this->getArgumentsForMethod($method->getParameters());
+            $arguments[] = $matches[0][1];
+
+            return $method->invokeArgs($class, $arguments);
+        }
     }
 
-    private function callClassWithManyParams($matches): void
+    /**
+     * @param array $arguments
+     * @return array
+     */
+    private function getArgumentsForMethod(array $arguments): array
+    {
+        $result = [];
+
+        foreach ($arguments as $k => $v) {
+            if ($v->getClass()) {
+                $result[] = app()->has($v->name)
+                    ? app()->make($v->getClass()->name)
+                    : app()->make($v->name);
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $matches
+     * @return mixed
+     */
+    private function callClassWithManyParams($matches)
     {
         unset($matches[0][0]);
 
-        $class = app()->get($this->info->getCurrentController());
+        $class = app()->make($this->info->getCurrentController());
+        $method = new \ReflectionMethod($class, $this->info->getRouteMethod());
+
+        $arguments = $this->getArgumentsForMethod($method->getParameters());
+
+        foreach ( $matches[0] as $k) {
+            $arguments[] = $k;
+        }
+
+        return $method->invokeArgs($class, $arguments);
     }
 
     /**
@@ -123,7 +169,8 @@ class BaseRoute
                 }
 
                 $this->info->setCurrentController($v['controller']);
-                $this->info->setCurrentMethod($v['function']);
+                $this->info->setRouteMethod($v['method']);
+                $this->info->setCurrentFunction($v['function']);
 
                 break;
             }

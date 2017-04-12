@@ -4,6 +4,7 @@ namespace Cratch;
 
 use Cratch\Config\Config;
 use Cratch\Config\MainConfig;
+use Cratch\Config\UserConfig;
 use Cratch\Container\ServiceContainer;
 use Cratch\Contracts\Config\ConfigInterface;
 
@@ -53,5 +54,12 @@ class App
         ]
         );
         $this->config = $this->container->make('mainConfig');
+
+        $this->container->register('userConfig', Config::class);
+        $this->container->setParams(
+            'userConfig', [
+                ConfigInterface::class => UserConfig::class,
+            ]
+        );
     }
 }

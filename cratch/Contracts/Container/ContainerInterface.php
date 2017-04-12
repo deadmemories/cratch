@@ -15,4 +15,6 @@ interface ContainerInterface
     public function setParams(string $name, array $params): void;
 
     public function make(string $name);
+
+    public function has(string $name): bool;
 }

@@ -21,7 +21,7 @@ class Helper
      * @param string $name
      * @return object
      */
-    public function get(string $name)
+    protected function get(string $name)
     {
         $bind = $this->bindings[$name] ?: ['class' => $name];
 
@@ -139,7 +139,7 @@ class Helper
      */
     protected function hasBind(string $name): bool
     {
-        return key_exists($name, $this->bindings);
+        return array_key_exists($name, $this->bindings);
     }
 
     /**
