@@ -2,13 +2,12 @@
 namespace Cratch\Storage;
 
 use Cratch\Contracts\Files\FilesInterface;
-use Cratch\Contracts\Files\MimeFileInterface;
-use Cratch\Contracts\Files\UploadInterface;
 
-class Files implements FilesInterface, MimeFileInterface, UploadInterface
+class Files implements FilesInterface
 {
     use  \Cratch\Storage\MimeTrait,
-         \Cratch\Storage\UploadTrait;
+         \Cratch\Storage\UploadTrait,
+         \Cratch\Storage\FolderTrait;
 
     private $root;
 
@@ -17,6 +16,11 @@ class Files implements FilesInterface, MimeFileInterface, UploadInterface
         $this->root = $_SERVER['DOCUMENT_ROOT'];
     }
 
+    /**
+     * Получить файл
+     * @param $path
+     * @return bool|string
+     */
     public function get($path)
     {
         if (file_exists($path)) {
@@ -25,18 +29,35 @@ class Files implements FilesInterface, MimeFileInterface, UploadInterface
         return false;
     }
 
+    /**
+     * Записать в файл с перезаписью
+     * @param $path
+     * @param $content
+     * @return $this
+     */
     public function put($path, $content)
     {
         file_put_contents("{$this->root}/{$path}", $content);
         return $this;
     }
 
+    /**
+     * Записать в файл без перезаписи
+     * @param $path
+     * @param $content
+     * @return $this
+     */
     public function append($path, $content)
     {
         file_put_contents("{$this->root}/{$path}", $content, FILE_APPEND);
         return $this;
     }
 
+    /**
+     * Удалить файл
+     * @param $path
+     * @return bool
+     */
     public function delete ($path)
     {
         if (file_exists($path)) {
@@ -44,21 +65,4 @@ class Files implements FilesInterface, MimeFileInterface, UploadInterface
         }
         return false;
     }
-
-    public function newDir($name)
-    {
-        if (is_dir($name)) {
-            return false;
-        }
-        return mkdir($name);
-    }
-
-    public function dropDir($name)
-    {
-        if (is_dir($name)) {
-            return rmdir($name);
-        }
-        return false;
-    }
-
 }
