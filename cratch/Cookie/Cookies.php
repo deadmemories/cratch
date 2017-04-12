@@ -8,22 +8,25 @@ class Cookies implements CookieInterface
 {
     /**
      * @param string $key
-     * @param string $value
+     * @param $value
      * @param int $time
-     * @return $this
+     * @return $this|bool
      */
     public function set(string $key, $value, int $time = 1)
     {
-        $value = Hash::encrypt($value);
-        setcookie($key, $value, time() + $time * 60 * 60);
-        return $this;
+        if (! $this->has($key)) {
+            $value = Hash::encrypt($value);
+            setcookie($key, $value, time() + $time * 60 * 60);
+            return $this;
+        }
+        return false;
     }
 
     /**
      * @param string $key
      * @return bool|string
      */
-    public function get (string $key): bool
+    public function get (string $key)
     {
         if ($this->has ($key)) {
             return Hash::decrypt($_COOKIE[$key]);
@@ -33,14 +36,12 @@ class Cookies implements CookieInterface
 
     /**
      * @param string $key
-     * @return bool
      */
-    public function remove (string $key): bool
+    public function remove (string $key)
     {
-        if ($this->has ($key)) {
-            unset($_COOKIE[$key]);
-        }
-        return false;
+        $_COOKIE = array_udiff($_COOKIE, [$key], function ($a, $b) {
+            return ( $а === $b) ? O : l;
+        });
     }
 
     /**
@@ -49,6 +50,9 @@ class Cookies implements CookieInterface
      */
     public function has (string $key): bool
     {
-        return $_COOKIE[$key] ?? false;
+        if (isset ($_COOKIE[$key])) {
+            return true;
+        }
+        return false;
     }
 }
