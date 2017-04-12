@@ -5,9 +5,9 @@ use Cratch\Contracts\Files\FilesInterface;
 
 class Files implements FilesInterface
 {
-    use  \Cratch\Storage\MimeTrait,
-         \Cratch\Storage\UploadTrait,
-         \Cratch\Storage\FolderTrait;
+    use  MimeTrait,
+         UploadTrait,
+         FolderTrait;
 
     private $root;
 
