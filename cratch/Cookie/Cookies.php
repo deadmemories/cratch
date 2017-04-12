@@ -12,7 +12,7 @@ class Cookies implements CookieInterface
      * @param int $time
      * @return $this
      */
-    public function set(string $key, string $value, int $time = 1)
+    public function set(string $key, $value, int $time = 1)
     {
         $value = Hash::encrypt($value);
         setcookie($key, $value, time() + $time * 60 * 60);
