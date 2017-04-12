@@ -2,9 +2,14 @@
 namespace Cratch\Storage;
 
 use Cratch\Contracts\Files\FilesInterface;
+use Cratch\Contracts\Files\MimeFileInterface;
+use Cratch\Contracts\Files\UploadInterface;
 
-class Files implements FilesInterface
+class Files implements FilesInterface, MimeFileInterface, UploadInterface
 {
+    use  \Cratch\Storage\MimeTrait,
+         \Cratch\Storage\UploadTrait;
+
     private $root;
 
     public function __construct()
@@ -32,31 +37,6 @@ class Files implements FilesInterface
         return $this;
     }
 
-    public function upload($path, $file)
-    {
-        if (is_uploaded_file ($file['tmp_name'])) {
-            return $this->move($file['tmp_name'], $path, $file['name']);
-        }
-        return false;
-    }
-
-    public function extension($file)
-    {
-        return explode('.', $file)[1];
-    }
-
-    public function is($type, $file)
-    {
-        if ($type == $this->mime($file)) {
-            return true;
-        }
-        return false;
-    }
-
-    public function mime($path)
-    {
-        return mime_content_type ($path);
-    }
     public function delete ($path)
     {
         if (file_exists($path)) {
@@ -81,8 +61,4 @@ class Files implements FilesInterface
         return false;
     }
 
-    public function move($file, $to, $name)
-    {
-        return move_uploaded_file ($file, "{$to}/{$name}");
-    }
 }
