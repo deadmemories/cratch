@@ -11,6 +11,12 @@ return [
         'route' => \Cratch\Routing\Route::class,
         'cookie' => \Cratch\Cookie\Cookies::class,
         'collection' => \Cratch\Collection\Collection::class,
+        'userConfig' => [
+            \Cratch\Config\Config::class,
+            [
+                \Cratch\Contracts\Config\ConfigInterface::class => \Cratch\Config\UserConfig::class,
+            ]
+        ],
         'storage' => [
             \Cratch\Files\Storage::class,
             [

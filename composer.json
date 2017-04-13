@@ -22,5 +22,8 @@
         "files": [
             "cratch/Support/Functions.php"
         ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "6.1"
     }
 }

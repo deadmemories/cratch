@@ -64,13 +64,5 @@ class App
                 ConfigInterface::class => MainConfig::class,
             ]
         );
-        $this->config = $this->container->make('mainConfig');
-
-        $this->container->register('userConfig', Config::class);
-        $this->container->setParams(
-            'userConfig', [
-                ConfigInterface::class => UserConfig::class,
-            ]
-        );
-    }
+        $this->config = $this->container->make('mainConfig');}
 }
